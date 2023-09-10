@@ -7,7 +7,11 @@ const buttonEraser = document.getElementById('eraser')
 const buttonClerar = document.getElementById('clerar')
 const sizeValue =document.getElementById('sizeValue')
 const sizeSlider =document.getElementById('sizeSlider')
+const rainbowMode =document.getElementById('rainbowMode')
+const mode =document.getElementById('mode')
+let currentMode='color'
 let changeSize=25;
+let selectedColor = 'black';
 const paint = ()=>{
     cell.style.backgroundColor = 'black';
 }
@@ -18,18 +22,36 @@ function updateSize(){
         sizeValue.textContent=`${standartSize + " x " + standartSize}`
         changeSize = 500/standartSize
         mainBox.innerHTML=''
+        console.log(changeSize)
         creatTable(changeSize)
     })
 }
+
+
 
 colorWindow.addEventListener('input', function(event){
     // let img = (event.target.value)
     // console.log(img)
     standartColor = event.target.value
+    selectedColor=standartColor;
+})
+
+mode.addEventListener('click', function(){
+    standartColor = selectedColor;
+    currentMode='color';
+    changeColor()
 })
 
 buttonEraser.addEventListener('click', function(){
-    standartColor='#fefefe'
+    selectedColor=standartColor;
+    currentMode='eraser'
+    changeColor()
+})
+
+rainbowMode.addEventListener('click', function(){
+    selectedColor=standartColor;
+    currentMode='rainbow'
+    changeColor()
 })
 
 buttonClerar.addEventListener('click', function(){
@@ -47,12 +69,15 @@ function creatTable(divSIze){
         for(let j=0;j<standartSize;j++){
             let cell = document.createElement('div')
             cell.classList.add('minDiv')
-            cell.setAttribute("style", `width: ${divSIze}px`)
-            cell.setAttribute("style", `height: ${divSIze}px`)
+            cell.setAttribute("style", `width: ${divSIze}px; height: ${divSIze}px`);
             // cell.addEventListener('mouseover', paint)
-            cell.addEventListener('mouseover',function(){
-                cell.style.backgroundColor = standartColor;
-            })
+            // cell.setAttribute("style", `width: ${divSIze}px`);
+            // cell.setAttribute("style", `height: ${divSIze}px`);
+            cell.addEventListener('mouseover',changeColor)
+            cell.addEventListener('mousedown',changeColor)
+            // {
+            //         cell.style.backgroundColor = standartColor;
+            // })
 
             line.appendChild(cell)
         }
@@ -65,3 +90,17 @@ window.onload = () => {
     updateSize();
 
 }
+
+function changeColor(e) {
+    if (e.type === 'mouseover' && !mouseDown) return
+    if (currentMode === 'rainbow') {
+      const randomR = Math.floor(Math.random() * 256)
+      const randomG = Math.floor(Math.random() * 256)
+      const randomB = Math.floor(Math.random() * 256)
+      e.target.style.backgroundColor = `rgb(${randomR}, ${randomG}, ${randomB})`
+    } else if (currentMode === 'color') {
+      e.target.style.backgroundColor = standartColor
+    } else if (currentMode === 'eraser') {
+      e.target.style.backgroundColor = '#fefefe'
+    }
+  }

@@ -10,13 +10,25 @@ body{
     display: flex;
     align-items: center;
     justify-content: center;
+    gap:30px;
 }
 #window{
     
     background-color: #fff;
     border: #000;
-    max-width: 500px;
-    max-height: 500px;
+    width: 500px;
+    height: 500px;
+}
+#name{
+    font-size: 80px;
+}
+.size{
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center; 
+   gap: 10px;
+   font-size: 20px;
 }
 #menu{
     display: flex;
@@ -40,10 +52,10 @@ body{
 }
 button {
     padding: 10px 20px;
-    border: 1px solid var(--primary-dark);
+    border: 1px solid black;
     border-radius: 5px;
 }
-button.active {
-    background-color: var(--primary-dark);
-    color: var(--primary-light);
-}
+/* button.active {
+    background-color: #222831;
+    color: #fff;
+} */
